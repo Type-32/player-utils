@@ -1,0 +1,8 @@
+{
+  "playerutils.keybinds.boatfly.toggle": "Toggle Boatfly",
+  "playerutils.keybinds.boatfly.hover.toggle": "Toggle Boatfly Hover Mode",
+  "playerutils.msg.boatfly.enabled": "Enabled Boatfly!",
+  "playerutils.msg.boatfly.disabled": "Disabled Boatfly!",
+  "playerutils.msg.boatfly.hover.enabled": "Your boat will now hover in mid-air.",
+  "playerutils.msg.boatfly.hover.disabled": "Your boat will now fall in mid-air."
+}
