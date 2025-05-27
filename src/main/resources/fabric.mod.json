@@ -15,6 +15,9 @@
     ],
     "main": [
       "dev.ctrlneo.playerutils.PlayerUtils"
+    ],
+    "modmenu": [
+      "dev.ctrlneo.playerutils.client.config.ModMenuIntegration"
     ]
   },
   "mixins": [
