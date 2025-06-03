@@ -1,9 +1,10 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "dev.ctrlneo.playerutils.mixin.client",
+  "package": "dev.ctrlneo.playerutils.client.mixin",
   "compatibilityLevel": "JAVA_21",
   "client": [
+    "PlayerEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

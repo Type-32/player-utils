@@ -7,7 +7,7 @@ import dev.isxander.yacl3.api.YetAnotherConfigLib;
 public class ModMenuIntegration implements ModMenuApi {
     @Override
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
-        return parentScreen -> YetAnotherConfigLib.createBuilder().
+        return PlayerUtilsConfig::createConfigScreen;
 
     }
 }

@@ -1,5 +1,6 @@
 package dev.ctrlneo.playerutils.client.modules.content.boatfly;
 
+import dev.ctrlneo.playerutils.client.config.PlayerUtilsConfig;
 import dev.ctrlneo.playerutils.client.modules.UtilityModule;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
@@ -15,10 +16,10 @@ import net.minecraft.util.math.Vec3d;
 
 public class BoatflyModule extends UtilityModule {
 
-    public static final String CONTENT_CATEGORY = "Boatfly";
+    public static final String MODULE_CATEGORY = "Boatfly";
 
-    public static final KeyBinding TOGGLE_BOATFLY = new KeyBinding("playerutils.keybinds.boatfly.toggle", InputUtil.GLFW_KEY_X, CONTENT_CATEGORY);
-    public static final KeyBinding TOGGLE_BOATFLY_HOVER = new KeyBinding("playerutils.keybinds.boatfly.hover.toggle", InputUtil.GLFW_KEY_P, CONTENT_CATEGORY);
+    public static final KeyBinding TOGGLE_BOATFLY = new KeyBinding("playerutils.keybinds.boatfly.toggle", InputUtil.GLFW_KEY_X, MODULE_CATEGORY);
+    public static final KeyBinding TOGGLE_BOATFLY_HOVER = new KeyBinding("playerutils.keybinds.boatfly.hover.toggle", InputUtil.GLFW_KEY_P, MODULE_CATEGORY);
 
     public static boolean boatflyHoveredEnabled = false;
 
@@ -35,6 +36,11 @@ public class BoatflyModule extends UtilityModule {
         KeyBindingHelper.registerKeyBinding(TOGGLE_BOATFLY);
         KeyBindingHelper.registerKeyBinding(TOGGLE_BOATFLY_HOVER);
 
+        if (PlayerUtilsConfig.get().boatflyEnabled)
+            enableModule();
+        else
+            disableModule();
+
         ClientTickEvents.END_CLIENT_TICK.register((ClientTickEvents.EndTick)(client) -> {
             Window window = client.getWindow();
 
@@ -45,8 +51,8 @@ public class BoatflyModule extends UtilityModule {
             }
 
             if (TOGGLE_BOATFLY_HOVER.wasPressed()) {
-                boatflyHoveredEnabled = !boatflyHoveredEnabled;
-                if (boatflyHoveredEnabled) {
+                PlayerUtilsConfig.get().boatflyHoverEnabled = !PlayerUtilsConfig.get().boatflyHoverEnabled;
+                if (PlayerUtilsConfig.get().boatflyHoverEnabled) {
                     MC.player.sendMessage(Text.translatable("playerutils.msg.boatfly.hover.enabled"), false);
                 } else {
                     MC.player.sendMessage(Text.translatable("playerutils.msg.boatfly.hover.disabled"), false);
@@ -62,7 +68,7 @@ public class BoatflyModule extends UtilityModule {
 
                 Vec3d velocity = vehicle.getVelocity();
 
-                if (boatflyHoveredEnabled) {
+                if (PlayerUtilsConfig.get().boatflyHoverEnabled) {
                     double motionY = MC.options.jumpKey.isPressed() ? 0.3 : MC.options.sprintKey.isPressed() ? -0.3 : MathHelper.sin(MC.player.age / 20F) / 40;
                     vehicle.setNoGravity(true);
                     vehicle.setVelocity(new Vec3d(velocity.x, motionY, velocity.z));
@@ -79,24 +85,28 @@ public class BoatflyModule extends UtilityModule {
 
     @Override
     public String getModuleName() {
-        return "";
+        return MODULE_CATEGORY;
     }
 
     @Override
     public String getModuleId() {
-        return "";
+        return "boatfly";
     }
 
     @Override
     public void enableModule() {
         assert MC.player != null;
         MC.player.sendMessage(Text.translatable("playerutils.msg.boatfly.enabled"), false);
+        PlayerUtilsConfig.get().boatflyEnabled = true;
+        PlayerUtilsConfig.HANDLER.save();
     }
 
     @Override
     public void disableModule() {
         assert MC.player != null;
         MC.player.sendMessage(Text.translatable("playerutils.msg.boatfly.disabled"), false);
+        PlayerUtilsConfig.get().boatflyEnabled = false;
+        PlayerUtilsConfig.HANDLER.save();
     }
 
     public void applyBoatfly(BoatEntity boat, float speedMultiplier) {
