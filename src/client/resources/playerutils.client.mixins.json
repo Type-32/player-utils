@@ -4,7 +4,6 @@
   "package": "dev.ctrlneo.playerutils.client.mixin",
   "compatibilityLevel": "JAVA_21",
   "client": [
-    "PlayerEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

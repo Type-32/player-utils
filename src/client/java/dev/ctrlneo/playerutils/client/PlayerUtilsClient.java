@@ -4,6 +4,7 @@ import com.terraformersmc.modmenu.util.mod.fabric.FabricMod;
 import dev.ctrlneo.playerutils.client.config.PlayerUtilsConfig;
 import dev.ctrlneo.playerutils.client.modules.content.boatfly.BoatflyModule;
 import dev.ctrlneo.playerutils.client.modules.content.damageIndicator.DamageIndicatorModule;
+import dev.ctrlneo.playerutils.client.modules.content.listeners.ListenersModule;
 import dev.ctrlneo.playerutils.client.modules.utility.ModuleManager;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
@@ -16,6 +17,7 @@ public class PlayerUtilsClient implements ClientModInitializer {
 
     public static final ModuleManager moduleManager = new ModuleManager();
 
+    public final ListenersModule listenersModule = new ListenersModule();
     public final BoatflyModule boatflyModule = new BoatflyModule();
     public final DamageIndicatorModule damageIndicatorModule = new DamageIndicatorModule();
 
@@ -24,6 +26,8 @@ public class PlayerUtilsClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         PlayerUtilsConfig.HANDLER.load();
+
+        moduleManager.registerModule(listenersModule);
         moduleManager.registerModule(boatflyModule);
         moduleManager.registerModule(damageIndicatorModule);
 
